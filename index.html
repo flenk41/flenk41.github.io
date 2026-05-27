@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flenk4 — Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --border: #21262d;
+      --accent: #80c5ff;
+      --accent2: #58a6ff;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --green: #3fb950;
+      --boosty: #f4731b;
+      --dalink: #a78bfa;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(48,54,61,0.35) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(48,54,61,0.35) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(88,166,255,0.06) 0%, transparent 70%);
+      top: -150px;
+      left: -100px;
+      pointer-events: none;
+      z-index: 0;
+      animation: glowMove 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowMove {
+      from { transform: translate(0, 0); }
+      to { transform: translate(80px, 80px); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-bottom: 40px;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .avatar-wrap {
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .avatar-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent2), var(--green), var(--accent2));
+      z-index: -1;
+      animation: spin 4s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 3px solid var(--bg);
+      display: block;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header-info h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .header-info h1 span {
+      color: var(--accent2);
+    }
+
+    .handle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .location {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    /* Bio card */
+    .bio-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.7s 0.1s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bio-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent2), var(--green), transparent);
+    }
+
+    .bio-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent2);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+
+    .bio-text {
+      font-size: 0.97rem;
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .tag {
+      background: rgba(88,166,255,0.1);
+      border: 1px solid rgba(88,166,255,0.2);
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    /* Section title */
+    .section-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Support buttons */
+    .support-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    .support-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: transform 0.15s, box-shadow 0.15s;
+      border: 1px solid transparent;
+    }
+
+    .support-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .support-btn:active { transform: translateY(0); }
+
+    .btn-boosty {
+      background: linear-gradient(135deg, #f4731b, #e05500);
+      color: #fff;
+    }
+
+    .btn-dalink {
+      background: linear-gradient(135deg, #7c3aed, #a78bfa);
+      color: #fff;
+    }
+
+    .btn-icon {
+      font-size: 1.2rem;
+    }
+
+    /* Links */
+    .links-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      animation: fadeUp 0.7s 0.3s ease both;
+      margin-bottom: 28px;
+    }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.15s, transform 0.15s, background 0.15s;
+    }
+
+    .link-item:hover {
+      border-color: var(--accent2);
+      background: rgba(88,166,255,0.05);
+      transform: translateX(4px);
+    }
+
+    .link-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .tg-blue { background: rgba(41,182,246,0.15); color: #29b6f6; }
+    .tg-green { background: rgba(63,185,80,0.15); color: var(--green); }
+    .gh-color { background: rgba(139,148,158,0.15); color: var(--muted); }
+
+    .link-info { flex: 1; }
+    .link-name { font-weight: 700; font-size: 0.92rem; }
+    .link-sub { font-size: 0.77rem; color: var(--muted); margin-top: 1px; font-family: 'JetBrains Mono', monospace; }
+
+    .link-arrow {
+      color: var(--muted);
+      font-size: 0.8rem;
+      transition: color 0.15s;
+    }
+
+    .link-item:hover .link-arrow { color: var(--accent2); }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 20px;
+      animation: fadeUp 0.7s 0.4s ease both;
+    }
+
+    .footer a { color: var(--accent2); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Online dot */
+    .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      margin-right: 5px;
+      box-shadow: 0 0 6px var(--green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    @media (max-width: 480px) {
+      .header { flex-direction: column; text-align: center; }
+      .support-grid { grid-template-columns: 1fr; }
+      .header-info h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="avatar-wrap">
+        <img
+          class="avatar"
+          src="https://avatars.githubusercontent.com/u/93430027?v=4"
+          alt="flenk41 avatar"
+        />
+      </div>
+      <div class="header-info">
+        <h1>Flenk<span>4</span></h1>
+        <div class="handle">@flenk41</div>
+        <div class="location">📍 Russia &nbsp;·&nbsp; <span class="dot"></span>Active</div>
+      </div>
+    </div>
+
+    <!-- Bio -->
+    <div class="bio-card">
+      <div class="bio-label">// about me</div>
+      <div class="bio-text">
+        Разработчик, изучающий системное программирование и AI.<br>
+        Пишу на C, C++, Python, Rust — строю инструменты, боты и проекты с нуля.
+        Слежу за трейдингом и публикую торговую аналитику.
+      </div>
+      <div class="tags">
+        <span class="tag">C / C++</span>
+        <span class="tag">Python</span>
+        <span class="tag">Rust</span>
+        <span class="tag">AI Models</span>
+        <span class="tag">Trading</span>
+      </div>
+    </div>
+
+    <!-- Support -->
+    <div class="section-title">Поддержать автора</div>
+    <div class="support-grid">
+      <a href="https://boosty.to/flenk" target="_blank" class="support-btn btn-boosty">
+        <span class="btn-icon">🚀</span> Boosty
+      </a>
+      <a href="https://dalink.to/flenk4" target="_blank" class="support-btn btn-dalink">
+        <span class="btn-icon">💜</span> DaLink
+      </a>
+    </div>
+
+    <!-- Links -->
+    <div class="section-title">Ссылки</div>
+    <div class="links-list">
+
+      <a href="https://t.me/TradingInfoStats" target="_blank" class="link-item">
+        <div class="link-icon tg-blue">📊</div>
+        <div class="link-info">
+          <div class="link-name">Trading Info Stats</div>
+          <div class="link-sub">t.me/TradingInfoStats</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+
+      <a href="https://t.me/KirillUMP" target="_blank" class="link-item">
+        <div class="link-icon tg-green">👤</div>
+        <div class="link-info">
+          <div class="link-name">Личный Telegram</div>
+          <div class="link-sub">t.me/KirillUMP</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+
+      <a href="https://t.me/Flenk4114" target="_blank" class="link-item">
+        <div class="link-icon tg-blue">✈️</div>
+        <div class="link-info">
+          <div class="link-name">Основной Telegram</div>
+          <div class="link-sub">t.me/Flenk4114</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+
+      <a href="https://github.com/flenk41" target="_blank" class="link-item">
+        <div class="link-icon gh-color">⌨️</div>
+        <div class="link-info">
+          <div class="link-name">GitHub</div>
+          <div class="link-sub">github.com/flenk41</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      made by <a href="https://github.com/flenk41">flenk41</a> · hosted on github pages
+    </div>
+
+  </div>
+</body>
+</html>
