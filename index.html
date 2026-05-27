@@ -411,20 +411,20 @@
         <div class="link-arrow">→</div>
       </a>
 
-      <a href="https://t.me/KirillUMP" target="_blank" class="link-item">
-        <div class="link-icon tg-green">👤</div>
-        <div class="link-info">
-          <div class="link-name">Личный Telegram</div>
-          <div class="link-sub">t.me/KirillUMP</div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
-
       <a href="https://t.me/Flenk4114" target="_blank" class="link-item">
         <div class="link-icon tg-blue">✈️</div>
         <div class="link-info">
           <div class="link-name">Основной Telegram</div>
           <div class="link-sub">t.me/Flenk4114</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+
+      <a href="https://t.me/KirillUMP" target="_blank" class="link-item">
+        <div class="link-icon tg-green">👤</div>
+        <div class="link-info">
+          <div class="link-name">Личный Telegram</div>
+          <div class="link-sub">t.me/KirillUMP</div>
         </div>
         <div class="link-arrow">→</div>
       </a>
@@ -439,6 +439,52 @@
       </a>
 
     </div>
+
+    <!-- Wallet -->
+    <div class="section-title">Крипто кошелёк</div>
+    <div class="links-list" style="margin-bottom:28px">
+      <div class="link-item" style="cursor:pointer" onclick="copyAddr('erc','copyHint0')">
+        <div class="link-icon" style="background:rgba(99,230,190,0.15);color:#63e6be;font-size:1.2rem">Ξ</div>
+        <div class="link-info">
+          <div class="link-name">ERC-20 (ETH / USDT / USDC)</div>
+          <div class="link-sub" style="word-break:break-all">0x0790993d46E76CD834C7855AE790f1E3DcC7f572</div>
+        </div>
+        <div class="link-arrow" id="copyHint0" style="font-size:0.75rem;color:var(--muted)">копировать</div>
+      </div>
+
+      <div class="link-item" style="cursor:pointer" onclick="copyAddr('trc','copyHint1')">
+        <div class="link-icon" style="background:rgba(255,0,0,0.12);color:#ff6b6b;font-size:1rem;font-family:'JetBrains Mono',monospace;font-weight:700">T</div>
+        <div class="link-info">
+          <div class="link-name">TRC-20 (TRON / USDT)</div>
+          <div class="link-sub" style="word-break:break-all">TF4q78uWZrjb3uNnhbY3cCbk66vGBffNGy</div>
+        </div>
+        <div class="link-arrow" id="copyHint1" style="font-size:0.75rem;color:var(--muted)">копировать</div>
+      </div>
+
+      <div class="link-item" style="cursor:pointer" onclick="copyAddr('ton','copyHint2')">
+        <div class="link-icon" style="background:rgba(41,182,246,0.15);color:#29b6f6;font-size:1rem;font-weight:700;font-family:'JetBrains Mono',monospace">TON</div>
+        <div class="link-info">
+          <div class="link-name">TON</div>
+          <div class="link-sub" style="word-break:break-all">UQBvaxbG0fFV5kDvYUVAGu1Kg-WOB4ovO5THvXzqaYwb_N07</div>
+        </div>
+        <div class="link-arrow" id="copyHint2" style="font-size:0.75rem;color:var(--muted)">копировать</div>
+      </div>
+    </div>
+
+    <script>
+      const wallets = {
+        erc: '0x0790993d46E76CD834C7855AE790f1E3DcC7f572',
+        trc: 'TF4q78uWZrjb3uNnhbY3cCbk66vGBffNGy',
+        ton: 'UQBvaxbG0fFV5kDvYUVAGu1Kg-WOB4ovO5THvXzqaYwb_N07'
+      };
+      function copyAddr(key, hintId) {
+        navigator.clipboard.writeText(wallets[key]);
+        const hint = document.getElementById(hintId);
+        hint.textContent = '✓ скопировано';
+        hint.style.color = 'var(--green)';
+        setTimeout(() => { hint.textContent = 'копировать'; hint.style.color = 'var(--muted)'; }, 2000);
+      }
+    </script>
 
     <!-- Footer -->
     <div class="footer">
